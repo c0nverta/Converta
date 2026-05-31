@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Converta — The Complete Instagram DM Automation System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#06091A;
+  --navy2:#0C1228;
+  --navy3:#111936;
+  --blue:#2460F5;
+  --blue2:#3B72FF;
+  --accent:#5B9EFF;
+  --cyan:#00D4FF;
+  --white:#FFFFFF;
+  --muted:rgba(200,210,255,0.55);
+  --muted2:rgba(200,210,255,0.35);
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(36,96,245,0.25);
+  --green:#00E096;
+  --orange:#FF9E2C;
+  --font:'Bricolage Grotesque',sans-serif;
+  --mono:'DM Mono',monospace;
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--navy);color:var(--white);line-height:1.6;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+.container{max-width:780px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+/* NAV */
+nav{padding:18px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(6,9,26,0.94);backdrop-filter:blur(18px)}
+.logo{font-size:19px;font-weight:800;letter-spacing:-0.05em;color:var(--white);text-decoration:none}
+.logo em{color:var(--blue2);font-style:normal}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-pill{font-size:11px;font-family:var(--mono);color:var(--accent);background:rgba(36,96,245,0.12);border:1px solid var(--border2);padding:5px 13px;border-radius:20px;letter-spacing:.04em}
+.nav-cta{font-size:13px;font-weight:600;background:var(--blue);color:#fff;padding:8px 18px;border-radius:8px;text-decoration:none;letter-spacing:-.01em;transition:background .2s}
+.nav-cta:hover{background:var(--blue2)}
+
+/* HERO */
+.hero{padding:96px 0 80px;text-align:center;position:relative}
+.hero-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse at 50% 30%,rgba(36,96,245,.18) 0%,transparent 65%);pointer-events:none;z-index:0}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--accent);background:rgba(36,96,245,.1);border:1px solid var(--border2);padding:7px 16px;border-radius:30px;margin-bottom:30px;text-transform:uppercase;animation:fadeUp .5s ease both}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:clamp(30px,5.2vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1.07;margin-bottom:22px;color:var(--white);animation:fadeUp .5s .1s ease both;opacity:0}
+h1 .grad{background:linear-gradient(135deg,var(--blue2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--muted);max-width:580px;margin:0 auto 36px;font-weight:400;line-height:1.78;animation:fadeUp .5s .18s ease both;opacity:0}
+.hero-ctas{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;animation:fadeUp .5s .26s ease both;opacity:0}
+.cta-primary{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#fff;font-family:var(--font);font-size:15px;font-weight:700;padding:16px 32px;border-radius:10px;border:none;cursor:pointer;letter-spacing:-.01em;text-decoration:none;transition:all .2s;box-shadow:0 0 40px rgba(36,96,245,.35)}
+.cta-primary:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 0 60px rgba(36,96,245,.5)}
+.cta-primary svg{transition:transform .2s}
+.cta-primary:hover svg{transform:translateX(4px)}
+.cta-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--accent);font-family:var(--font);font-size:15px;font-weight:600;padding:16px 24px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;letter-spacing:-.01em;text-decoration:none;transition:all .2s}
+.cta-secondary:hover{background:rgba(36,96,245,.08);border-color:var(--accent)}
+.trust-badges{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:24px;animation:fadeUp .5s .34s ease both;opacity:0}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:500}
+.trust-check{width:16px;height:16px;border-radius:50%;background:rgba(0,224,150,.15);border:1px solid rgba(0,224,150,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--navy2)}
+.stat-item{padding:30px 20px;text-align:center;border-right:1px solid var(--border);position:relative}
+.stat-item:last-child{border-right:none}
+.stat-num{font-size:34px;font-weight:800;letter-spacing:-.04em;color:var(--white);display:block;margin-bottom:5px;line-height:1}
+.stat-num em{color:var(--blue2);font-style:normal}
+.stat-label{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+
+/* SHARED SECTION */
+.section{padding:88px 0}
+.section-sm{padding:64px 0}
+.section-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
+h2{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:14px;color:var(--white)}
+.section-body{font-size:15px;color:var(--muted);line-height:1.8;max-width:560px;margin-bottom:44px;font-weight:400}
+hr.divider{border:none;border-top:1px solid var(--border)}
+.section-cta{text-align:center;margin-top:48px}
+
+/* PROBLEM */
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:56px}
+.problem-card{background:var(--navy2);padding:28px 22px}
+.problem-icon{font-size:26px;margin-bottom:12px;display:block}
+.problem-title{font-size:14px;font-weight:700;margin-bottom:7px;color:var(--white)}
+.problem-desc{font-size:13px;color:var(--muted);line-height:1.65}
+.solution-banner{background:linear-gradient(135deg,rgba(36,96,245,.12),rgba(0,212,255,.06));border:1px solid var(--border2);border-radius:var(--r);padding:28px 28px;display:flex;align-items:center;gap:20px}
+.sol-icon{font-size:32px;flex-shrink:0}
+.sol-text h3{font-size:17px;font-weight:700;margin-bottom:5px}
+.sol-text p{font-size:13px;color:var(--muted);line-height:1.65}
+.sol-arrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--cyan);font-family:var(--mono);margin-top:8px;letter-spacing:.04em;flex-wrap:wrap}
+
+/* VALUE STACK */
+.value-section{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:88px 0}
+.value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.value-card{background:var(--navy3);padding:24px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;transition:background .2s}
+.value-card:hover{background:#141b3d}
+.value-card-left{display:flex;align-items:flex-start;gap:14px}
+.value-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.value-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.3}
+.value-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.value-price{font-size:12px;font-weight:700;color:var(--accent);font-family:var(--mono);white-space:nowrap;padding:4px 10px;background:rgba(36,96,245,.12);border:1px solid var(--border2);border-radius:20px;flex-shrink:0}
+/* Summary card */
+.value-summary{background:linear-gradient(135deg,rgba(36,96,245,.12),rgba(0,212,255,.06));border:1px solid var(--border2);border-radius:var(--r);padding:30px 30px;margin-bottom:24px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.vs-title{font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.vs-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(200,210,255,.85);font-weight:500}
+.vs-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.vs-price-block{text-align:right;min-width:140px}
+.vs-was{font-size:13px;color:var(--muted2);text-decoration:line-through;font-family:var(--mono);margin-bottom:4px}
+.vs-price{font-size:46px;font-weight:800;letter-spacing:-.04em;color:var(--white);line-height:1}
+.vs-price span{font-size:22px;font-weight:600;color:var(--muted);vertical-align:super}
+.vs-label{font-size:10px;color:var(--green);font-family:var(--mono);letter-spacing:.06em;margin-top:6px}
+
+/* FLOWS */
+.flows-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:44px}
+.flow-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px;transition:border-color .2s,transform .2s}
+.flow-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.flow-card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.flow-num{font-size:10px;font-family:var(--mono);color:var(--accent);background:rgba(36,96,245,.1);border:1px solid var(--border2);padding:3px 9px;border-radius:20px;letter-spacing:.06em}
+.flow-icon{font-size:18px}
+.flow-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px}
+.flow-what{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.flow-outcome{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--green);font-weight:600}
+.flow-outcome::before{content:'→';color:var(--green)}
+
+/* PREVIEW GALLERY */
+.preview-section{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:88px 0;overflow:hidden}
+.preview-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.preview-card{background:var(--navy3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:border-color .25s,transform .25s,box-shadow .25s}
+.preview-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(36,96,245,.18)}
+.preview-header{background:rgba(36,96,245,.08);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:6px}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:var(--border2)}
+.ph-title{font-size:10px;font-family:var(--mono);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.preview-body{padding:16px 14px}
+.pb-line{height:7px;border-radius:4px;background:rgba(255,255,255,.07);margin-bottom:7px}
+.pb-line.s{width:55%}
+.pb-line.m{width:78%}
+.pb-line.b{background:rgba(36,96,245,.28)}
+.pb-bubble{background:rgba(36,96,245,.14);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;margin-bottom:6px}
+.pb-bubble p{font-size:9.5px;color:var(--accent);line-height:1.5}
+.pb-bubble-out{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px}
+.pb-bubble-out p{font-size:9.5px;color:var(--muted);line-height:1.5}
+.pb-tag{display:inline-block;font-size:9px;font-family:var(--mono);color:var(--green);background:rgba(0,224,150,.1);border:1px solid rgba(0,224,150,.2);padding:3px 8px;border-radius:20px;margin-top:4px}
+.pb-tag-blue{display:inline-block;font-size:9px;font-family:var(--mono);color:var(--accent);background:rgba(36,96,245,.1);border:1px solid var(--border2);padding:3px 8px;border-radius:20px;margin:2px}
+.pb-kpi{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px}
+.kpi-b{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:7px;text-align:center}
+.kpi-v{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.kpi-l{font-size:8.5px;color:var(--muted);font-family:var(--mono)}
+.pb-step{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pb-step-num{width:18px;height:18px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.pb-step-line{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.06)}
+
+/* WHO */
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.who-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:26px 20px;transition:border-color .2s,transform .2s}
+.who-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.who-icon{font-size:32px;margin-bottom:14px;display:block}
+.who-title{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--white)}
+.who-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* BENEFITS */
+.benefits-section{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:88px 0}
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.benefit-card{background:var(--navy3);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;transition:border-color .2s,transform .2s}
+.benefit-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.benefit-icon{font-size:24px;margin-bottom:12px;display:block}
+.benefit-title{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--white)}
+.benefit-desc{font-size:12.5px;color:var(--muted);line-height:1.65}
+
+/* EARLY ACCESS */
+.early-section{padding:88px 0}
+.early-banner{background:linear-gradient(135deg,rgba(36,96,245,.13),rgba(0,212,255,.06));border:1px solid var(--border2);border-radius:16px;padding:48px 40px;position:relative;overflow:hidden;text-align:center}
+.early-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent)}
+.early-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(36,96,245,.12) 0%,transparent 65%);pointer-events:none}
+.early-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--orange);background:rgba(255,158,44,.1);border:1px solid rgba(255,158,44,.25);padding:6px 16px;border-radius:30px;margin-bottom:22px;text-transform:uppercase}
+.early-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:blink 2s infinite}
+.early-h{font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:-.04em;margin-bottom:12px;line-height:1.2}
+.early-sub{font-size:15px;color:var(--muted);max-width:520px;margin:0 auto 36px;line-height:1.75}
+.early-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:36px;text-align:left}
+.early-badge-item{background:rgba(0,0,0,.25);padding:16px 16px;display:flex;align-items:flex-start;gap:10px}
+.eb-icon{font-size:20px;flex-shrink:0}
+.eb-title{font-size:12.5px;font-weight:700;color:var(--white);margin-bottom:2px}
+.eb-desc{font-size:11px;color:var(--muted)}
+
+/* FOUNDER */
+.founder-section{padding:88px 0}
+.founder-card{display:grid;grid-template-columns:1fr;gap:40px;align-items:start;background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:44px 40px}
+.founder-img-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.founder-img{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--navy3),var(--navy2));border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.founder-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(36,96,245,.15),rgba(0,212,255,.08));font-size:48px}
+.founder-name{font-size:13px;font-weight:700;color:var(--white);text-align:center}
+.founder-role{font-size:11px;color:var(--accent);font-family:var(--mono);text-align:center;letter-spacing:.04em}
+.founder-content .section-tag{margin-bottom:10px}
+.founder-content h2{font-size:clamp(22px,3vw,32px);margin-bottom:20px}
+.founder-content p{font-size:14.5px;color:var(--muted);line-height:1.85;margin-bottom:16px}
+.founder-sig{font-size:14px;color:var(--accent);font-weight:600;margin-top:6px}
+
+/* TRUST STRIP */
+.trust-strip{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:20px 28px;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.ts-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(200,210,255,.75);font-weight:500}
+.ts-check{width:20px;height:20px;border-radius:50%;background:rgba(0,224,150,.12);border:1px solid rgba(0,224,150,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* HOW IT WORKS */
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:52px 1fr;gap:20px;padding:26px 0;border-bottom:1px solid var(--border);align-items:start}
+.step:last-child{border-bottom:none}
+.step-num{width:42px;height:42px;border-radius:8px;background:rgba(36,96,245,.1);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:500;flex-shrink:0}
+.step-title{font-size:15px;font-weight:700;margin-bottom:5px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* PRICING */
+.pricing-wrap{position:relative}
+.pricing-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(36,96,245,.14) 0%,transparent 65%);pointer-events:none;z-index:0}
+.pricing-card{background:var(--navy2);border:1px solid rgba(36,96,245,.35);border-radius:16px;padding:42px 38px;position:relative;z-index:1;overflow:hidden;box-shadow:0 0 80px rgba(36,96,245,.08)}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent)}
+.pricing-launch-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--orange);background:rgba(255,158,44,.12);border:1px solid rgba(255,158,44,.3);padding:7px 16px;border-radius:30px;margin-bottom:18px;text-transform:uppercase}
+.price-was{font-size:14px;color:var(--muted2);text-decoration:line-through;margin-bottom:4px;font-family:var(--mono)}
+.price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+.price-curr{font-size:24px;font-weight:600;color:var(--muted);align-self:flex-start;margin-top:12px}
+.price-main{font-size:64px;font-weight:800;letter-spacing:-.04em;color:var(--white);line-height:1}
+.price-cents{font-size:32px;font-weight:700;color:var(--white);align-self:flex-start;margin-top:14px}
+.price-note{font-size:13px;color:var(--green);margin-bottom:4px;font-weight:600;letter-spacing:.01em}
+.price-sub{font-size:12px;color:var(--muted2);margin-bottom:28px}
+.pricing-features{list-style:none;margin-bottom:30px}
+.pricing-features li{display:flex;align-items:center;gap:10px;font-size:14px;padding:11px 0;border-bottom:1px solid var(--border);color:rgba(255,255,255,.85)}
+.pricing-features li:last-child{border-bottom:none}
+.feat-check{width:20px;height:20px;border-radius:5px;background:rgba(0,224,150,.1);border:1px solid rgba(0,224,150,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat-val{margin-left:auto;font-size:11px;color:var(--accent);font-family:var(--mono);font-weight:600}
+.cta-full{display:block;width:100%;text-align:center;background:var(--blue);color:#fff;font-family:var(--font);font-size:17px;font-weight:700;padding:20px 32px;border-radius:12px;border:none;cursor:pointer;letter-spacing:-.01em;text-decoration:none;transition:all .2s;box-shadow:0 0 40px rgba(36,96,245,.35)}
+.cta-full:hover{background:var(--blue2);box-shadow:0 0 60px rgba(36,96,245,.55);transform:translateY(-1px)}
+.guarantee-row{margin-top:18px;padding:15px 18px;background:rgba(36,96,245,.07);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7}
+.pricing-perks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:30px}
+.perk-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(200,210,255,.8)}
+.perk-icon{font-size:17px;flex-shrink:0}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column}
+.faq-item{border-bottom:1px solid var(--border);padding:0}
+.faq-q{font-size:15px;font-weight:600;cursor:pointer;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;user-select:none;-webkit-tap-highlight-color:transparent;min-height:56px}
+.faq-q span{flex:1;line-height:1.4}
+.faq-arrow{width:26px;height:26px;border-radius:50%;background:rgba(36,96,245,.1);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .25s,background .2s}
+.faq-arrow svg{transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.faq-item.open .faq-arrow{background:rgba(36,96,245,.25);border-color:rgba(36,96,245,.5)}
+.faq-item.open .faq-arrow svg{transform:rotate(45deg)}
+.faq-a{font-size:13.5px;color:var(--muted);line-height:1.8;padding-bottom:20px;display:none}
+.faq-item.open .faq-a{display:block}
+
+/* FOOTER CTA */
+.footer-cta{padding:88px 0;text-align:center;border-top:1px solid var(--border);position:relative;overflow:hidden}
+.footer-glow{position:absolute;bottom:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse at bottom,rgba(36,96,245,.15) 0%,transparent 65%);pointer-events:none}
+
+/* STICKY CTA */
+.sticky-cta{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateX(-50%) translateY(10px)}
+.sticky-cta.visible{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.sticky-inner{display:flex;align-items:center;gap:12px;background:rgba(6,9,26,.94);border:1px solid var(--border2);border-radius:40px;padding:10px 14px 10px 18px;backdrop-filter:blur(20px);box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.sticky-text{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap}
+.sticky-text span{color:var(--accent)}
+.sticky-btn{font-size:13px;font-weight:700;background:var(--blue);color:#fff;padding:9px 20px;border-radius:30px;text-decoration:none;white-space:nowrap;transition:background .2s}
+.sticky-btn:hover{background:var(--blue2)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:1;transform:translateY(0);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE — comprehensive responsive overhaul */
+@media(max-width:700px){
+
+  /* GLOBAL */
+  .container{padding:0 16px}
+  .section{padding:64px 0}
+  .section-sm{padding:48px 0}
+  .section-body{margin-bottom:32px;font-size:14px}
+
+  /* NAV */
+  .nav-pill{display:none}
+  nav{padding:14px 0}
+
+  /* HERO */
+  .hero{padding:56px 0 52px}
+  h1{font-size:clamp(26px,7.5vw,38px);letter-spacing:-.03em;line-height:1.1;margin-bottom:18px}
+  .hero-sub{font-size:14.5px;line-height:1.72;margin-bottom:28px;padding:0 4px}
+  .hero-badge{font-size:9.5px;padding:6px 13px;margin-bottom:22px}
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:10px;width:100%;max-width:100%}
+  .cta-primary{width:100%;justify-content:center;padding:17px 24px;font-size:15px}
+  .cta-secondary{width:100%;justify-content:center;padding:14px 24px}
+  .trust-badges{gap:10px 16px;margin-top:20px}
+  .trust-item{font-size:11.5px}
+
+  /* STATS BAR */
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .stat-item{padding:20px 16px}
+  .stat-num{font-size:26px}
+  .stat-label{font-size:10.5px}
+  .stat-item:nth-child(2){border-right:none}
+
+  /* SECTION HEADINGS */
+  h2{font-size:clamp(22px,6vw,32px);letter-spacing:-.03em}
+
+  /* PROBLEM */
+  .problem-grid{grid-template-columns:1fr}
+  .problem-card{padding:24px 20px}
+  .solution-banner{flex-direction:column;gap:14px;padding:22px 20px}
+
+  /* VALUE STACK */
+  .value-grid{grid-template-columns:1fr}
+  .value-card{padding:18px 16px}
+  .value-summary{grid-template-columns:1fr;padding:22px 20px;gap:16px}
+  .vs-price-block{text-align:left;margin-top:4px}
+  .vs-checks{grid-template-columns:1fr}
+  .vs-price{font-size:34px}
+
+  /* FLOWS */
+  .flows-grid{grid-template-columns:1fr;gap:8px}
+  .flow-card{padding:18px 16px}
+
+  /* PRODUCT PREVIEW — 25% larger, more visual impact */
+  .preview-section{padding:64px 0}
+  .preview-scroll{grid-template-columns:1fr;gap:16px}
+  .preview-card{border-radius:14px;border-color:rgba(36,96,245,.2)}
+  .preview-header{padding:13px 18px}
+  .ph-dot{width:10px;height:10px}
+  .ph-title{font-size:11.5px;letter-spacing:.07em}
+  .preview-body{padding:20px 18px}
+  .pb-bubble p{font-size:12px;line-height:1.6}
+  .pb-bubble-out p{font-size:12px;line-height:1.6}
+  .pb-bubble{padding:11px 13px;margin-bottom:8px;border-radius:10px}
+  .pb-bubble-out{padding:11px 13px;margin-bottom:8px;border-radius:10px}
+  .pb-tag{font-size:11px;padding:5px 11px}
+  .pb-tag-blue{font-size:11px;padding:5px 11px;margin:3px}
+  .pb-kpi{gap:7px;margin-bottom:10px}
+  .kpi-b{padding:10px 8px;border-radius:8px}
+  .kpi-v{font-size:20px}
+  .kpi-l{font-size:10px}
+  .pb-line{height:9px;border-radius:5px;margin-bottom:9px}
+  .pb-step{margin-bottom:9px}
+  .pb-step-num{width:26px;height:26px;font-size:10px}
+
+  /* WHO */
+  .who-grid{grid-template-columns:1fr;gap:8px}
+  .who-card{padding:20px 18px}
+  .who-icon{font-size:30px;margin-bottom:10px}
+  .who-title{font-size:15px;margin-bottom:7px}
+  .who-desc{font-size:13px}
+
+  /* BENEFITS */
+  .benefits-grid{grid-template-columns:1fr;gap:8px}
+  .benefit-card{padding:20px 18px}
+  .benefit-icon{font-size:28px}
+  .benefit-title{font-size:15px}
+  .benefit-desc{font-size:13px}
+
+  /* EARLY ACCESS */
+  .early-section{padding:64px 0}
+  .early-banner{padding:32px 20px}
+  .early-badges{grid-template-columns:repeat(2,1fr)}
+  .early-badge-item{padding:14px 12px}
+  .eb-title{font-size:12px}
+  .eb-desc{font-size:10.5px}
+
+  /* FOUNDER */
+  .founder-section{padding:64px 0}
+  .founder-card{padding:28px 22px;text-align:left}
+  .founder-content p{font-size:13.5px}
+  .founder-sig{font-size:13px}
+
+  /* TRUST STRIP */
+  .trust-strip{gap:10px 14px;padding:16px 18px}
+  .ts-item{font-size:12px}
+
+  /* HOW IT WORKS */
+  .step{grid-template-columns:44px 1fr;gap:14px;padding:22px 0}
+  .step-title{font-size:14px}
+  .step-desc{font-size:12.5px}
+
+  /* PRICING */
+  .pricing-card{padding:26px 18px}
+  .pricing-perks{grid-template-columns:1fr}
+  .price-main{font-size:52px}
+  .price-cents{font-size:26px;margin-top:10px}
+  .price-curr{font-size:20px;margin-top:9px}
+  .pricing-features li{font-size:13px;padding:9px 0}
+  .cta-full{padding:17px 24px;font-size:15px}
+  .guarantee-row{font-size:11.5px}
+
+  /* FAQ */
+  .faq-q{padding:22px 0;font-size:14px;-webkit-tap-highlight-color:transparent}
+  .faq-arrow{width:26px;height:26px}
+  .faq-a{font-size:13px;padding-bottom:20px}
+
+  /* STICKY CTA */
+  .sticky-text{display:none}
+  .sticky-btn{font-size:14px;padding:11px 22px}
+  .sticky-inner{padding:8px 8px 8px 14px}
+
+  /* FOOTER CTA */
+  .footer-cta{padding:64px 0}
+
+  /* SECTION CTA */
+  .section-cta{margin-top:36px}
+  .section-cta .cta-primary{width:100%;justify-content:center}
+
+  /* BEGINNER GRID */
+  .beginner-grid{grid-template-columns:1fr !important}
+
+  /* PREVENT OVERFLOW */
+  img,svg{max-width:100%}
+  .hero-glow{width:100%;height:300px}
+  .pricing-glow{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-inner">
+    <div class="sticky-text">Converta — <span>$39.99</span> launch price</div>
+    <a class="sticky-btn" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Get Instant Access →</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<div style="position:relative;z-index:100">
+  <div class="container">
+    <nav>
+      <a class="logo" href="#">Converta<em>.</em></a>
+      <div class="nav-right">
+        <div class="nav-pill">Launch Pricing Active</div>
+        <a class="nav-cta" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Get Access — $39.99</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="container">
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Complete Instagram DM Automation System</div>
+    <h1>Stop Losing Leads in Your<br><span class="grad">Instagram DMs</span></h1>
+    <p class="hero-sub">Import 12 proven ManyChat automation flows, capture more leads, automate follow-ups, and turn Instagram conversations into sales without spending hours replying manually.</p>
+    <div class="hero-ctas">
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">
+        Get Instant Access
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="cta-secondary" href="#included">
+        See Everything Included
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 3v8M3 9l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="trust-badges">
+      <div class="trust-item"><div class="trust-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Instant Download</div>
+      <div class="trust-item"><div class="trust-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Beginner Friendly</div>
+      <div class="trust-item"><div class="trust-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Works with Any Business</div>
+      <div class="trust-item"><div class="trust-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No Coding Required</div>
+    </div>
+  </section>
+</div>
+
+<!-- STATS -->
+<div style="position:relative;z-index:1">
+  <div class="stats-bar">
+    <div class="stat-item"><span class="stat-num">12<em>×</em></span><span class="stat-label">Automation Flows</span></div>
+    <div class="stat-item"><span class="stat-num"><em>80%</em></span><span class="stat-label">DM Open Rate</span></div>
+    <div class="stat-item"><span class="stat-num">24<em>/7</em></span><span class="stat-label">Automated Sales</span></div>
+    <div class="stat-item"><span class="stat-num"><em>5</em>min</span><span class="stat-label">Setup Per Flow</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PROBLEM / SOLUTION -->
+<div class="container">
+  <section class="section">
+    <div class="reveal">
+      <span class="section-tag">The Problem</span>
+      <h2>You're Losing Leads Every Day</h2>
+      <p class="section-body">Every unanswered DM is a lost sale. Without automation, your best leads go cold before you even see them.</p>
+    </div>
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <span class="problem-icon">⏱️</span>
+        <div class="problem-title">Manual Replies</div>
+        <div class="problem-desc">Potential customers wait hours for responses. They don't wait long — they move on to the next option.</div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">📭</span>
+        <div class="problem-title">Missed Leads</div>
+        <div class="problem-desc">Interested followers send a message, never receive a follow-up, and disappear forever. No second chance.</div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">📉</span>
+        <div class="problem-title">No Sales System</div>
+        <div class="problem-desc">Most businesses rely on inconsistent manual outreach. Revenue spikes when you're active and drops when you're not.</div>
+      </div>
+    </div>
+    <div class="solution-banner reveal">
+      <div class="sol-icon">⚡</div>
+      <div class="sol-text">
+        <h3>Converta Fixes This Automatically</h3>
+        <p>The moment someone comments, replies to your story, or DMs a keyword — Converta triggers the right automation. Lead captured. Follow-up sent. Sale initiated. All without you touching your phone.</p>
+        <div class="sol-arrow">Comment / Story Reply / DM Keyword → Auto-Response → Lead Captured → Sale Initiated</div>
+      </div>
+    </div>
+    <div class="section-cta reveal">
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Fix This Today — $39.99 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- VALUE STACK -->
+<div class="value-section" id="included">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">Everything Included</span>
+      <h2>A Complete Business Growth System</h2>
+      <p class="section-body">Every component is built to work together as a complete Instagram sales engine — not just a set of files.</p>
+    </div>
+    <div class="value-grid reveal">
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">⚡</div><div><div class="value-name">12 Ready-to-Import Automation Flows</div><div class="value-desc">Every flow for every stage — leads, sales, launches, giveaways & more</div></div></div>
+        <div class="value-price">$297</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">🗺️</div><div><div class="value-name">Automation Blueprint Maps</div><div class="value-desc">4 proven flow-stacking strategies to build complete sales funnels</div></div></div>
+        <div class="value-price">$99</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">🤖</div><div><div class="value-name">AI Prompt Vault</div><div class="value-desc">8 copy-paste ChatGPT prompts for every DM scenario you'll face</div></div></div>
+        <div class="value-price">$49</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">💬</div><div><div class="value-name">DM Script Library</div><div class="value-desc">6 proven, high-converting message scripts ready to personalise</div></div></div>
+        <div class="value-price">$49</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">📅</div><div><div class="value-name">30-Day Implementation Roadmap</div><div class="value-desc">Week-by-week plan to go from zero to fully automated in 30 days</div></div></div>
+        <div class="value-price">$49</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-left"><div class="value-icon">📊</div><div><div class="value-name">KPI Tracking Scorecard</div><div class="value-desc">Professional dashboard to track DMs, leads, calls, and revenue weekly</div></div></div>
+        <div class="value-price">$29</div>
+      </div>
+    </div>
+    <div class="value-summary reveal">
+      <div>
+        <div class="vs-title">What You're Actually Getting</div>
+        <div class="vs-checks">
+          <div class="vs-item">12 Automation Flows</div>
+          <div class="vs-item">Complete Implementation Framework</div>
+          <div class="vs-item">AI Prompt Library</div>
+          <div class="vs-item">DM Script Collection</div>
+          <div class="vs-item">Blueprint Maps</div>
+          <div class="vs-item">KPI Tracking System</div>
+          <div class="vs-item">Troubleshooting Guide</div>
+          <div class="vs-item">Trigger Keyword Database</div>
+        </div>
+      </div>
+      <div class="vs-price-block">
+        <div class="vs-was">$572 total value</div>
+        <div class="vs-price"><span>$</span>39<span style="font-size:22px">.99</span></div>
+        <div class="vs-label">ONE-TIME · NO SUBSCRIPTION</div>
+      </div>
+    </div>
+    <div class="section-cta reveal">
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Get Everything for $39.99 — Instant Access <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- FLOW SHOWCASE -->
+<div class="container">
+  <section class="section">
+    <div class="reveal">
+      <span class="section-tag">The 12 Flows</span>
+      <h2>Every Automation You Need.<br>Built and Ready.</h2>
+      <p class="section-body">Each flow is a complete, multi-step sales sequence. Import, customise, activate — done.</p>
+    </div>
+    <div class="flows-grid reveal">
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">📅</div><div class="flow-num">01</div></div><div class="flow-name">Event Leads</div><div class="flow-what">Captures and converts leads for events, workshops, and launches via automated DM sequences with follow-ups and day-of reminders.</div><div class="flow-outcome">40–60% more event registrations vs manual outreach</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">🚀</div><div class="flow-num">02</div></div><div class="flow-name">Business Starter DM</div><div class="flow-what">Qualifies new enquiries, delivers resources, and books discovery calls automatically the moment someone DMs a keyword.</div><div class="flow-outcome">Discovery calls booked while you sleep</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">⚡</div><div class="flow-num">03</div></div><div class="flow-name">Flash Sale DM</div><div class="flow-what">Delivers time-sensitive discount codes directly to DMs with urgency messages and abandoned-cart follow-ups.</div><div class="flow-outcome">3–5× more conversions from flash sales</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">🎯</div><div class="flow-num">04</div></div><div class="flow-name">Product Launch</div><div class="flow-what">Builds a waitlist, sends teaser content over days, and converts leads at launch with bonuses and urgency messaging.</div><div class="flow-outcome">60–80% waitlist-to-buyer conversion rate</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">🎁</div><div class="flow-num">05</div></div><div class="flow-name">Giveaway</div><div class="flow-what">Automates giveaway entries via DM, captures contact details, and sends non-winners a consolation offer that converts.</div><div class="flow-outcome">Hundreds of qualified leads from a single post</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">📧</div><div class="flow-num">06</div></div><div class="flow-name">Email to Sale</div><div class="flow-what">Revives cold email subscribers by moving the conversation to Instagram DMs with exclusive subscriber-only offers.</div><div class="flow-outcome">Monetise subscribers who stopped opening emails</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">🎓</div><div class="flow-num">07</div></div><div class="flow-name">Course Sales DM</div><div class="flow-what">Handles objections, delivers testimonials, and closes course sales through a persuasive multi-step DM sequence.</div><div class="flow-outcome">Close course sales without a single sales call</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">📊</div><div class="flow-num">08</div></div><div class="flow-name">Lead Gen Ad</div><div class="flow-what">Converts Instagram ad traffic into leads via DM — no landing page needed. Dramatically lower cost-per-lead.</div><div class="flow-outcome">DM opt-ins have 70–80% open rate vs 20% for email</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">📱</div><div class="flow-num">09</div></div><div class="flow-name">Social Media Sales</div><div class="flow-what">Turns post and reel comments into DM conversations that end in a sale — triggered by a single keyword.</div><div class="flow-outcome">Monetise every piece of content you post</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">💾</div><div class="flow-num">10</div></div><div class="flow-name">Digital Product Launch</div><div class="flow-what">Automates the full launch funnel for ebooks, templates, and bundles — from first interest to completed purchase.</div><div class="flow-outcome">Sell digital products 24/7 without being online</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">✉️</div><div class="flow-num">11</div></div><div class="flow-name">Email Capture</div><div class="flow-what">Builds your email list by capturing subscriber emails through Instagram DMs using a high-value lead magnet offer.</div><div class="flow-outcome">50–200 new email subscribers per week</div></div>
+      <div class="flow-card"><div class="flow-card-top"><div class="flow-icon">📸</div><div class="flow-num">12</div></div><div class="flow-name">Story Sales</div><div class="flow-what">Converts your most engaged story viewers into buyers the instant they reply — targeting peak intent moments.</div><div class="flow-outcome">Your hottest leads converted automatically</div></div>
+    </div>
+    <div class="section-cta reveal">
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Get All 12 Flows Now <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- PRODUCT PREVIEW GALLERY -->
+<div class="preview-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">Inside the Bundle</span>
+      <h2>See Exactly What You're Getting</h2>
+      <p class="section-body">Every component is a professional, ready-to-use resource. Here's a look inside each one.</p>
+    </div>
+    <div class="preview-scroll reveal">
+      <!-- Blueprint Maps -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">Blueprint Maps</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">Flow Stacking Strategy</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+              <span class="pb-tag-blue" style="font-size:8px">Lead Gen Ad</span>
+              <span style="color:var(--cyan);font-size:11px;font-weight:700">→</span>
+              <span class="pb-tag-blue" style="font-size:8px">Email Capture</span>
+              <span style="color:var(--cyan);font-size:11px;font-weight:700">→</span>
+              <span class="pb-tag-blue" style="font-size:8px">Email to Sale</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+              <span class="pb-tag-blue" style="font-size:8px;background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.25);color:var(--cyan)">Story Reply</span>
+              <span style="color:var(--cyan);font-size:11px;font-weight:700">→</span>
+              <span class="pb-tag-blue" style="font-size:8px">Qualifier DM</span>
+              <span style="color:var(--cyan);font-size:11px;font-weight:700">→</span>
+              <span class="pb-tag-blue" style="font-size:8px;background:rgba(0,224,150,.08);border-color:rgba(0,224,150,.25);color:var(--green)">Booked Call</span>
+            </div>
+          </div>
+          <div class="pb-line b" style="margin-bottom:5px"></div>
+          <div class="pb-tag">4 proven stacking strategies · Visual flow diagrams</div>
+        </div>
+      </div>
+      <!-- AI Prompt Vault -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">AI Prompt Vault</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">8 Copy-Paste ChatGPT Prompts</div>
+          <div style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:3px"><span class="pb-tag-blue" style="font-size:8px">Sales DM Opener</span><span class="pb-tag-blue" style="font-size:8px">Objection Handler</span><span class="pb-tag-blue" style="font-size:8px">Lead Qualifier</span><span class="pb-tag-blue" style="font-size:8px">Follow-Up</span><span class="pb-tag-blue" style="font-size:8px">Appointment Closer</span><span class="pb-tag-blue" style="font-size:8px">Story Reply</span></div>
+          <div class="pb-bubble"><p>Write an Instagram DM for a [business type] selling [product]. Keep it under 3 sentences, conversational, no emojis…</p></div>
+          <div class="pb-tag">Fill in the blanks · Works with any offer</div>
+        </div>
+      </div>
+      <!-- KPI Scorecard -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">KPI Scorecard</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">Weekly Tracking Dashboard</div>
+          <div class="pb-kpi">
+            <div class="kpi-b"><div class="kpi-v" style="color:#5B9EFF">DMs</div><div class="kpi-l">Generated</div></div>
+            <div class="kpi-b"><div class="kpi-v" style="color:#00E096">Leads</div><div class="kpi-l">Captured</div></div>
+            <div class="kpi-b"><div class="kpi-v" style="color:#FF9E2C">Calls</div><div class="kpi-l">Booked</div></div>
+            <div class="kpi-b"><div class="kpi-v" style="color:#00D4FF">Rev</div><div class="kpi-l">Revenue</div></div>
+          </div>
+          <div class="pb-line b" style="margin-bottom:5px"></div>
+          <div class="pb-tag">Track what matters · 30-day view</div>
+        </div>
+      </div>
+      <!-- DM Script Library -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">DM Script Library</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">6 Ready-to-Send Message Scripts</div>
+          <div class="pb-bubble-out"><p><strong style="color:var(--white)">Flash Sale Script:</strong> Hey [Name]! Running a 24-hr flash sale. DM me SALE for the exclusive link 👇</p></div>
+          <div class="pb-bubble-out" style="margin-top:4px"><p><strong style="color:var(--white)">Discovery Call Script:</strong> Hey! Saw your question — happy to jump on a quick call. DM me CALL to book…</p></div>
+          <div class="pb-tag">Personalise in 60 seconds · Proven to convert</div>
+        </div>
+      </div>
+      <!-- 30-Day Roadmap -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">30-Day Roadmap</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">Week-by-Week Implementation Plan</div>
+          <div class="pb-step"><div class="pb-step-num" style="font-size:8px;width:22px;height:22px">W1</div><div style="flex:1"><div style="height:6px;border-radius:3px;background:rgba(36,96,245,.5);margin-bottom:3px"></div><div style="font-size:8px;color:var(--muted)">Set up ManyChat · Import first 3 flows</div></div></div>
+          <div class="pb-step"><div class="pb-step-num" style="font-size:8px;width:22px;height:22px;background:rgba(36,96,245,.5)">W2</div><div style="flex:1"><div style="height:6px;border-radius:3px;background:rgba(36,96,245,.35);margin-bottom:3px"></div><div style="font-size:8px;color:var(--muted)">Activate flows · Launch first campaign</div></div></div>
+          <div class="pb-step"><div class="pb-step-num" style="font-size:8px;width:22px;height:22px;background:rgba(36,96,245,.3)">W3</div><div style="flex:1"><div style="height:6px;border-radius:3px;background:rgba(36,96,245,.2);margin-bottom:3px"></div><div style="font-size:8px;color:var(--muted)">Review KPIs · Optimise top flows</div></div></div>
+          <div class="pb-step" style="border-bottom:none"><div class="pb-step-num" style="font-size:8px;width:22px;height:22px;background:rgba(36,96,245,.15)">W4</div><div style="flex:1"><div style="height:6px;border-radius:3px;background:rgba(36,96,245,.1);margin-bottom:3px"></div><div style="font-size:8px;color:var(--muted)">Stack flows · Full system running</div></div></div>
+          <div class="pb-tag" style="margin-top:6px">Zero to fully automated in 30 days</div>
+        </div>
+      </div>
+      <!-- Automation Flow Preview -->
+      <div class="preview-card">
+        <div class="preview-header"><div class="ph-dot"></div><div class="ph-title">DM Automation Flow</div></div>
+        <div class="preview-body">
+          <div style="font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;text-transform:uppercase">Flash Sale Flow · Live Example</div>
+          <div class="pb-bubble"><p>⚡ Hey [Name]! You commented SALE — here's your exclusive 30% off code, valid 24hrs only 👇</p></div>
+          <div class="pb-bubble-out"><p>What's the code??</p></div>
+          <div class="pb-bubble"><p>🔥 Code: FLASH30 → [link] · Expires midnight!</p></div>
+          <div class="pb-tag">✓ Auto-triggered · Instant delivery · Fully customisable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- WHO IT'S FOR -->
+<div class="container">
+  <section class="section">
+    <div class="reveal">
+      <span class="section-tag">Who It's For</span>
+      <h2>Built for Every Business<br>That Sells on Instagram</h2>
+    </div>
+    <div class="who-grid reveal">
+      <div class="who-card"><span class="who-icon">🛒</span><div class="who-title">Ecommerce Stores</div><div class="who-desc">Recover abandoned buyers and increase repeat purchases through automated DM sequences that catch customers at exactly the right moment.</div></div>
+      <div class="who-card"><span class="who-icon">🎓</span><div class="who-title">Coaches & Consultants</div><div class="who-desc">Book more discovery calls automatically. Let your flows qualify leads and schedule conversations without any manual follow-up.</div></div>
+      <div class="who-card"><span class="who-icon">🏢</span><div class="who-title">Agencies</div><div class="who-desc">Generate qualified leads without manual outreach. Build scalable client acquisition systems that run without your direct involvement.</div></div>
+      <div class="who-card"><span class="who-icon">📚</span><div class="who-title">Course Creators</div><div class="who-desc">Turn followers into paying students. Automate the conversations that handle objections and close enrolments around the clock.</div></div>
+      <div class="who-card"><span class="who-icon">📍</span><div class="who-title">Local Businesses</div><div class="who-desc">Convert inquiries into appointments and bookings automatically — even while you're busy serving other customers in person.</div></div>
+      <div class="who-card"><span class="who-icon">💾</span><div class="who-title">Digital Product Sellers</div><div class="who-desc">Sell templates, ebooks, and bundles around the clock. Automate your entire launch funnel with zero manual effort.</div></div>
+    </div>
+    <div class="section-cta reveal">
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">This Is for Me — Get Instant Access <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- BENEFITS / OUTCOMES -->
+<div class="benefits-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-tag">The Outcomes</span>
+      <h2>What Happens When Your<br>DMs Work Automatically</h2>
+      <p class="section-body">Stop trading time for leads. Let the system work while you focus on what matters.</p>
+    </div>
+    <div class="benefits-grid reveal">
+      <div class="benefit-card"><span class="benefit-icon">⏳</span><div class="benefit-title">Save Hours Every Week</div><div class="benefit-desc">Eliminate repetitive manual conversations. Your flows handle the routine so you never have to.</div></div>
+      <div class="benefit-card"><span class="benefit-icon">🎯</span><div class="benefit-title">Capture More Leads</div><div class="benefit-desc">Automatically collect contact information from everyone who shows interest — even at 3am.</div></div>
+      <div class="benefit-card"><span class="benefit-icon">⚡</span><div class="benefit-title">Follow Up Instantly</div><div class="benefit-desc">Respond the moment someone shows interest. Speed of response is the #1 driver of conversion.</div></div>
+      <div class="benefit-card"><span class="benefit-icon">💰</span><div class="benefit-title">Increase Conversions</div><div class="benefit-desc">Guide every prospect toward your offer with the right message at exactly the right moment.</div></div>
+      <div class="benefit-card"><span class="benefit-icon">📈</span><div class="benefit-title">Scale Conversations</div><div class="benefit-desc">Handle hundreds of enquiries simultaneously without hiring staff or working longer hours.</div></div>
+      <div class="benefit-card"><span class="benefit-icon">✅</span><div class="benefit-title">Create Consistency</div><div class="benefit-desc">Every lead gets the same optimised experience — no more missed follow-ups or inconsistent replies.</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- EARLY ACCESS -->
+<div class="container">
+  <section class="early-section">
+    <div class="early-banner reveal">
+      <div class="early-glow"></div>
+      <div class="early-tag"><span class="early-tag-dot"></span>Launch Phase Active</div>
+      <h2 class="early-h">Early Access Launch</h2>
+      <p class="early-sub">Converta is currently available at launch pricing. Be among the first businesses to implement these automation systems and gain a competitive advantage before this price increases.</p>
+      <div class="early-badges">
+        <div class="early-badge-item">
+          <div class="eb-icon">💸</div>
+          <div><div class="eb-title">Early Access Pricing</div><div class="eb-desc">Launch price locked at $39.99 — increases after launch period ends</div></div>
+        </div>
+        <div class="early-badge-item">
+          <div class="eb-icon">⬇️</div>
+          <div><div class="eb-title">Instant Download</div><div class="eb-desc">Access everything immediately after checkout — no waiting</div></div>
+        </div>
+        <div class="early-badge-item">
+          <div class="eb-icon">🔄</div>
+          <div><div class="eb-title">Future Updates Included</div><div class="eb-desc">All updates and new additions are included with your purchase</div></div>
+        </div>
+        <div class="early-badge-item">
+          <div class="eb-icon">⏰</div>
+          <div><div class="eb-title">Limited-Time Offer</div><div class="eb-desc">Launch pricing won't last — get it now before the price goes up</div></div>
+        </div>
+      </div>
+      <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true" style="margin:0 auto">
+        Claim Early Access — $39.99
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- HOW IT WORKS -->
+<div class="container">
+  <section class="section">
+    <div class="reveal">
+      <span class="section-tag">How It Works</span>
+      <h2>Live in Under 10 Minutes.</h2>
+      <p class="section-body">No tech skills. No custom coding. Just import, customise, activate.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num">01</div><div><div class="step-title">Download and open ManyChat</div><div class="step-desc">Sign up free at app.manychat.com if you don't have an account. Connect your Instagram — takes 2 minutes and the free plan covers everything you need to get started.</div></div></div>
+      <div class="step"><div class="step-num">02</div><div><div class="step-title">Click the import link for your chosen flow</div><div class="step-desc">Each flow in your guide has a direct import link. Click it, hit 'Use Template' in ManyChat, and the fully-built flow appears in your account instantly — no setup required.</div></div></div>
+      <div class="step"><div class="step-num">03</div><div><div class="step-title">Customise your messages in minutes</div><div class="step-desc">Swap in your product names, prices, links, and brand voice. Each message has clear placeholders — customisation takes minutes, not hours.</div></div></div>
+      <div class="step"><div class="step-num">04</div><div><div class="step-title">Set your trigger keyword and activate</div><div class="step-desc">Choose what activates your flow: a comment keyword, story reply, or direct message. Hit Activate, post a story or reel with your CTA, and watch the DMs roll in automatically.</div></div></div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- FOUNDER SECTION -->
+<div class="container">
+  <section class="founder-section">
+    <div class="founder-card reveal">
+      <div class="founder-content">
+        <span class="section-tag">Why Converta Exists</span>
+        <h2>Built to Solve a Real Problem</h2>
+        <p>Most businesses lose leads because they don't reply quickly enough. Someone comments on a post, replies to a story, or sends a DM — and by the time the business responds, the opportunity is gone.</p>
+        <p>Converta was created to solve that problem. Instead of building complicated automations from scratch, you can import proven DM systems, customise them in minutes, and start capturing leads automatically.</p>
+        <p>This bundle combines automation flows, scripts, prompts, blueprints, and implementation frameworks into one complete system — so you never miss another lead.</p>
+        <div class="founder-sig">— Converta Team</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- TRUST STRIP + PRICING -->
+<div class="container">
+  <section class="section">
+    <div class="reveal" style="text-align:center;margin-bottom:40px">
+      <span class="section-tag">Pricing</span>
+      <h2>Launch Pricing Available Now</h2>
+      <p style="font-size:15px;color:var(--muted);max-width:500px;margin:0 auto 32px;line-height:1.75">Get the complete Converta bundle today. Instant digital access. Future updates included. No subscriptions. One-time payment.</p>
+    </div>
+
+    <!-- BUILT FOR BEGINNERS -->
+    <div class="reveal" style="margin-bottom:32px">
+      <div style="background:var(--navy2);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px">Built for Beginners</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px">You do NOT need:</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px"><span style="color:#FF6B6B;font-weight:700;font-size:15px">✗</span> Coding Experience</div>
+            <div style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px"><span style="color:#FF6B6B;font-weight:700;font-size:15px">✗</span> Automation Experience</div>
+            <div style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px"><span style="color:#FF6B6B;font-weight:700;font-size:15px">✗</span> Technical Knowledge</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px">You only need:</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:8px"><span style="color:var(--green);font-weight:700">✓</span> Instagram</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:8px"><span style="color:var(--green);font-weight:700">✓</span> ManyChat (free plan works)</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:8px"><span style="color:var(--green);font-weight:700">✓</span> 10 Minutes to Set Up Your First Flow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-strip reveal">
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Instant Download</div>
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Beginner Friendly</div>
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Step-by-Step Instructions</div>
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Works Across Multiple Industries</div>
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Editable Templates</div>
+      <div class="ts-item"><div class="ts-check"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No Coding Required</div>
+    </div>
+    <div class="pricing-wrap reveal">
+      <div class="pricing-glow"></div>
+      <div class="pricing-card">
+        <div class="pricing-launch-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--orange);animation:blink 2s infinite;flex-shrink:0;display:inline-block"></span>Launch Pricing Active</div>
+
+        <!-- For Less Than One Client Call -->
+        <div style="background:rgba(36,96,245,.07);border:1px solid var(--border2);border-radius:10px;padding:18px 20px;margin-bottom:22px">
+          <div style="font-size:12px;color:var(--accent);font-family:var(--mono);letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase">For Less Than One Client Call, You Get:</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> 12 Automation Flows</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> AI Prompt Vault</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> DM Script Library</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> Blueprint Maps</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> KPI Tracking System</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> 30-Day Roadmap</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> Troubleshooting Guide</div>
+            <div style="font-size:13px;color:rgba(200,210,255,.85);display:flex;align-items:center;gap:7px"><span style="color:var(--green);font-weight:700">✓</span> Future Updates</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;color:var(--accent);font-family:var(--mono);letter-spacing:.06em;margin-bottom:6px;text-transform:uppercase">Launch Price</div>
+        <div class="price-row">
+          <span class="price-curr">$</span>
+          <span class="price-main">39</span>
+          <span class="price-cents">.99</span>
+        </div>
+        <p class="price-note">✓ One-Time Payment &nbsp;·&nbsp; ✓ Instant Access &nbsp;·&nbsp; ✓ Future Updates Included</p>
+        <p class="price-sub">Download immediately after checkout. Import your first flow in under 10 minutes.</p>
+        <div class="pricing-perks">
+          <div class="perk-item"><span class="perk-icon">⬇️</span>Instant digital download</div>
+          <div class="perk-item"><span class="perk-icon">🔄</span>Future updates included</div>
+          <div class="perk-item"><span class="perk-icon">🚫</span>No subscription required</div>
+          <div class="perk-item"><span class="perk-icon">♾️</span>Use on unlimited accounts</div>
+        </div>
+        <ul class="pricing-features">
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>12 ManyChat Automation Flows<span class="feat-val">$297 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Automation Blueprint Maps<span class="feat-val">$99 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>AI Prompt Vault (8 ChatGPT prompts)<span class="feat-val">$49 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>DM Script Library<span class="feat-val">$49 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>30-Day Implementation Roadmap<span class="feat-val">$49 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>KPI Tracking Scorecard<span class="feat-val">$29 value</span></li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>100+ Trigger Keyword Library</li>
+          <li><div class="feat-check"><svg viewBox="0 0 10 10" fill="none" width="9" height="9"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#00E096" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Troubleshooting Guide + Best Practices</li>
+        </ul>
+        <a class="cta-full" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">Get Converta Now →</a>
+        <div class="guarantee-row">🔒 Instant download after payment &nbsp;·&nbsp; No subscriptions &nbsp;·&nbsp; Future updates included &nbsp;·&nbsp; One-time payment</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<div class="container">
+  <section class="section" style="padding-top:0">
+    <div class="reveal">
+      <span class="section-tag">FAQ</span>
+      <h2>Common Questions</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Is this beginner friendly?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">Yes. Everything is designed for beginners. Each flow comes with a setup guide and import link — no technical knowledge required. Most people are live within 10 minutes of downloading.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need ManyChat experience?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">No. Everything is beginner friendly. Each flow comes with a setup guide and import link — you click, customise, and activate. Most people are fully live within 10 minutes.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Can I edit the automations?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">Yes. Every flow is fully customisable. Every message, keyword trigger, link, and image is editable inside ManyChat. You can make them completely your own in minutes.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Will this work for my niche?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">The automation framework works across virtually every industry — ecommerce, coaching, agencies, local businesses, digital products, services, and more. The flows are designed to be adapted to any offer.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How do I receive the product?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">Instant digital delivery after purchase. You'll receive an email from Gumroad with your download link. Click it, download your files, and you're ready to start importing flows immediately.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need Instagram?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">Yes. These automations are designed specifically for Instagram DM marketing via ManyChat. You'll need an Instagram Business or Creator account connected to ManyChat to use them.</div>
+      </div>
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need a paid ManyChat plan?</span><div class="faq-arrow"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+        <div class="faq-a">No. The flows are designed to work on ManyChat's free plan. You can start generating results today with zero additional cost. An Essential plan unlocks advanced features, but it's not required to begin.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER CTA -->
+<div style="position:relative;z-index:1">
+  <div class="container">
+    <div class="footer-cta reveal">
+      <div class="footer-glow"></div>
+      <span class="section-tag" style="display:block;text-align:center">Ready to Automate?</span>
+      <h2 style="text-align:center">Stop Losing Leads.<br>Start Closing Sales on Autopilot.</h2>
+      <p style="font-size:15px;color:var(--muted);margin:12px auto 36px;font-weight:400;max-width:480px;line-height:1.75;text-align:center">12 automation flows. AI prompts. DM scripts. Blueprint maps. A complete system. One payment. Ready in 10 minutes.</p>
+      <div style="display:flex;justify-content:center">
+        <a class="cta-primary" href="YOUR_GUMROAD_PRODUCT_URL" data-gumroad-overlay-checkout="true">
+          Get Converta — $39.99
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:18px;font-family:var(--mono);letter-spacing:.05em;text-align:center">INSTANT DOWNLOAD · ONE-TIME PAYMENT · FUTURE UPDATES INCLUDED</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleFaq(el){const item=el.parentElement;item.classList.toggle('open')}
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(r=>observer.observe(r));
+const sticky=document.getElementById('stickyCta');
+const hero=document.querySelector('.hero');
+window.addEventListener('scroll',()=>{const hb=hero.getBoundingClientRect().bottom;sticky.classList.toggle('visible',hb<0)},{passive:true});
+</script>
+</body>
+</html>
